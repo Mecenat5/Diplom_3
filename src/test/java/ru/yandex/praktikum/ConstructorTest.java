@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import ru.yandex.praktikum.pageobject.MainPage;
 
+import static org.junit.Assert.assertEquals;
 import static ru.yandex.praktikum.Constants.MAIN_PAGE;
 import static ru.yandex.praktikum.WebDriverCreator.createWebDriver;
 
@@ -20,15 +21,30 @@ public class ConstructorTest {
         driver.get(MAIN_PAGE);
     }
     @Test
-    @DisplayName("Переход к разделам Конструктора")
-    @Description("Проверка - успешный переход по разделам Конструктора")
-    public void switchToBunTab() {
+    @DisplayName("Переход в конструкторе к разделу Булки")
+    @Description("Проверка - успешный переход к разделу Булки")
+    public void transitionSectionBun() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.clickButtonSauces();
-        mainPage.clickButtonBuns();
         mainPage.clickButtonFillings();
         mainPage.clickButtonBuns();
+        assertEquals("Булки", mainPage.buttonTextMenuDesigner());
+
+    }
+    @Test
+    @DisplayName("Переход в конструкторе к разделу Соусы")
+    @Description("Проверка - успешный переход к разделу Соусы")
+    public void transitionSectionSauces() {
+        MainPage mainPage = new MainPage(driver);
         mainPage.clickButtonSauces();
+        assertEquals("Соусы", mainPage.buttonTextMenuDesigner());
+    }
+    @Test
+    @DisplayName("Переход в конструкторе к разделу Начинки")
+    @Description("Проверка - успешный переход к разделу Начинки")
+    public void transitionSectionFillings() {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.clickButtonFillings();
+        assertEquals("Начинки", mainPage.buttonTextMenuDesigner());
     }
 
     @After

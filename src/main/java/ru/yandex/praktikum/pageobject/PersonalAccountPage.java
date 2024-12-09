@@ -31,7 +31,7 @@ public class PersonalAccountPage {
     }
 
     @Step("Нажать на логотип StellarBurgers")
-    public void сlickButtonStellarBurgers() {
+    public void clickButtonStellarBurgers() {
         driver.findElement(buttonStellarBurgers).click();
     }
 

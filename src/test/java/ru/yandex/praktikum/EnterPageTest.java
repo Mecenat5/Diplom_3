@@ -2,12 +2,10 @@ package ru.yandex.praktikum;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import ru.yandex.praktikum.api.ParametersUser;
 import ru.yandex.praktikum.api.StepUser;
 import ru.yandex.praktikum.pageobject.EnterPage;
 import ru.yandex.praktikum.pageobject.MainPage;
@@ -20,13 +18,14 @@ import static ru.yandex.praktikum.api.GenerateUser.*;
 
 public class EnterPageTest {
     private WebDriver driver;
-    private ParametersUser parametersUser;
+    private String accessToken;
+
 
     @Before
     public void setUp() {
         driver = createWebDriver();
         driver.get(MAIN_PAGE);
-        Response response = StepUser.createUser(RANDOM_EMAIL, RANDOM_PASSWORD, RANDOM_NAME);
+        StepUser.createUser(RANDOM_EMAIL, RANDOM_PASSWORD, RANDOM_NAME);
     }
     @Test
     @DisplayName("Вход по кнопке «Войти в аккаунт» на главной странице")
@@ -34,7 +33,7 @@ public class EnterPageTest {
     public void LogUsingLogToAccountButton() {
         MainPage mainPage = new MainPage(driver);
         EnterPage enterPage = new EnterPage(driver);
-        mainPage.сlickButtonLogToAccount();
+        mainPage.clickButtonLogToAccount();
         enterPage.setEnterEmail(RANDOM_EMAIL);
         enterPage.setEnterPassword(RANDOM_PASSWORD);
         enterPage.clickButtonEnter();
@@ -45,7 +44,7 @@ public class EnterPageTest {
     public void LoginToPersonalAccountButton() {
         MainPage mainPage = new MainPage(driver);
         EnterPage enterPage = new EnterPage(driver);
-        mainPage.сlickButtonPersonalAccount();
+        mainPage.clickButtonPersonalAccount();
         enterPage.setEnterEmail(RANDOM_EMAIL);
         enterPage.setEnterPassword(RANDOM_PASSWORD);
         enterPage.clickButtonEnter();
@@ -57,7 +56,7 @@ public class EnterPageTest {
         MainPage mainPage = new MainPage(driver);
         RegistrationPage registrationPage = new RegistrationPage(driver);
         EnterPage enterPage = new EnterPage(driver);
-        mainPage.сlickButtonPersonalAccount();
+        mainPage.clickButtonPersonalAccount();
         enterPage.enterButtonRegister();
         registrationPage.enterButtonClick();
         enterPage.setEnterEmail(RANDOM_EMAIL);
@@ -71,7 +70,7 @@ public class EnterPageTest {
         MainPage mainPage = new MainPage(driver);
         PasswordRecoveryPage passwordRecoveryPage = new PasswordRecoveryPage(driver);
         EnterPage enterPage = new EnterPage(driver);
-        mainPage.сlickButtonPersonalAccount();
+        mainPage.clickButtonPersonalAccount();
         enterPage.enterButtonRecoverPassword();
         passwordRecoveryPage.clickEnterButton();
         enterPage.setEnterEmail(RANDOM_EMAIL);
@@ -81,7 +80,11 @@ public class EnterPageTest {
 
     @After
     public void teardown() {
+        if (accessToken != null) {
+            StepUser.deleteUser(accessToken);
+        }
         driver.quit();
     }
 }
+
 
