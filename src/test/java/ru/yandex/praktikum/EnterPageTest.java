@@ -2,6 +2,7 @@ package ru.yandex.praktikum;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
+import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,8 @@ public class EnterPageTest {
     public void setUp() {
         driver = createWebDriver();
         driver.get(MAIN_PAGE);
-        StepUser.createUser(RANDOM_EMAIL, RANDOM_PASSWORD, RANDOM_NAME);
+        Response response = StepUser.createUser(RANDOM_EMAIL, RANDOM_PASSWORD, RANDOM_NAME);
+        accessToken = response.then().log().all().extract().path("accessToken");
     }
     @Test
     @DisplayName("Вход по кнопке «Войти в аккаунт» на главной странице")
